@@ -4,38 +4,81 @@ import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 
 interface BaseQuiz {
-  quiz: [
-    {
-      answers: [
-        { text: string },
-        { text: string },
-        { text: string },
-        { text: string }
-      ]
-    }
-  ]
+  activeQuestion: number
+  answerState?: any
+  quiz: {
+    question: string
+    rightAnswerId: number
+    id: number
+    answers: { text: string; id: number }[]
+  }[]
 }
 
 export default function Quiz() {
   const [quizState, setquizState] = useState<BaseQuiz>({
+    activeQuestion: 0,
+    answerState: null,
     quiz: [
       {
+        question: 'Какого цвета небо?',
+        rightAnswerId: 2,
+        id: 1,
         answers: [
-          { text: 'Вопрос 1' },
-          { text: 'Вопрос 2' },
-          { text: 'Вопрос 3' },
-          { text: 'Вопрос 4' },
+          { text: 'Черный', id: 1 },
+          { text: 'Синий', id: 2 },
+          { text: 'Красный', id: 3 },
+          { text: 'Зеленый', id: 4 },
+        ],
+      },
+      {
+        question: 'В каком году основали СПб?',
+        rightAnswerId: 3,
+        id: 2,
+        answers: [
+          { text: '1700', id: 1 },
+          { text: '1705', id: 2 },
+          { text: '1703', id: 3 },
+          { text: '1803', id: 4 },
         ],
       },
     ],
   })
 
+  function onAnswerClickHandler(answerId: number) {
+    console.log('answerId', answerId)
+
+    const question = quizState.quiz[quizState.activeQuestion]
+    if (question.rightAnswerId === answerId) {
+      if (isQuizFinish()) {
+        console.log('finished')
+      } else {
+        setquizState({
+          ...quizState,
+          activeQuestion: quizState.activeQuestion + 1,
+          answerState: { [answerId]: 'success' },
+        })
+      }
+    } else {
+      setquizState({ ...quizState, answerState: { [answerId]: 'false' } })
+    }
+  }
+
+  function isQuizFinish() {
+    return quizState.activeQuestion + 1 === quizState.quiz.length
+  }
+
   return (
     <div className={clsx(styles.root)}>
       <div className={clsx(styles.quizWrapper)}>
-        <h1>Quiz</h1>
-        {/* <ActiveQuiz answers={[{ text: '1' }]} /> */}
-        <ActiveQuiz answers={quizState.quiz[0].answers} />
+        <h1>Вопросы, испытай себя!!</h1>
+        <ActiveQuiz
+          answers={quizState.quiz[quizState.activeQuestion].answers}
+          question={quizState.quiz[quizState.activeQuestion].question}
+          onAnswerClick={onAnswerClickHandler}
+          quizLength={quizState.quiz.length}
+          answerNumber={quizState.activeQuestion + 1}
+          stateAnswers={quizState.answerState}
+        />
       </div>
     </div>
   )
