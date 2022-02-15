@@ -1,0 +1,24 @@
+.root {
+  padding: 8px 24px;
+  margin-right: 15px;
+  color: white;
+  font-weight: 700;
+  font-size: large;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 3px;
+
+  &.second {
+    background-color: rgb(48, 128, 61);
+  }
+  &.primary {
+    background-color: rgb(94, 94, 233);
+  }
+
+  &:hover {
+    background-color: rgb(57, 57, 231);
+  }
+  &:focus {
+    background-color: rgb(57, 57, 231);
+  }
+}

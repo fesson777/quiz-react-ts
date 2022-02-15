@@ -14,7 +14,7 @@ function AnswerList(props: any) {
               key={index}
               answer={answer}
               onAnswerClick={onAnswerClick}
-              stateAnswers={stateAnswers ? stateAnswers[answer.id] : null}
+              stateAnswersClass={stateAnswers ? stateAnswers[answer.id] : null}
             />
           )
         })}

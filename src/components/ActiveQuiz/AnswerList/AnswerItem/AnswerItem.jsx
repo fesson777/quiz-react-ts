@@ -10,13 +10,15 @@ import clsx from 'clsx'
 // }
 
 const AnswerItem = (props) => {
-  if (props.stateAnswers) {
-    console.log(props.stateAnswers)
-  }
-
   const { answer, onAnswerClick } = props
   return (
-    <li className={clsx(styles.root)} onClick={() => onAnswerClick(answer.id)}>
+    <li
+      className={clsx(styles.root, {
+        [styles.success]: props.stateAnswersClass === 'success',
+        [styles.error]: props.stateAnswersClass === 'error',
+      })}
+      onClick={() => onAnswerClick(answer.id)}
+    >
       {answer.text}
     </li>
   )

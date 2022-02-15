@@ -2,8 +2,10 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
+import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 
-interface BaseQuiz {
+interface IBaseQuiz {
+  isFinished: boolean
   activeQuestion: number
   answerState?: any
   quiz: {
@@ -15,7 +17,8 @@ interface BaseQuiz {
 }
 
 export default function Quiz() {
-  const [quizState, setquizState] = useState<BaseQuiz>({
+  const [quizState, setquizState] = useState<IBaseQuiz>({
+    isFinished: false,
     activeQuestion: 0,
     answerState: null,
     quiz: [
@@ -44,22 +47,36 @@ export default function Quiz() {
     ],
   })
 
-  function onAnswerClickHandler(answerId: number) {
-    console.log('answerId', answerId)
+  const [result, setResult] = useState({})
 
+  function onAnswerClickHandler(answerId: number) {
     const question = quizState.quiz[quizState.activeQuestion]
     if (question.rightAnswerId === answerId) {
-      if (isQuizFinish()) {
-        console.log('finished')
-      } else {
-        setquizState({
-          ...quizState,
-          activeQuestion: quizState.activeQuestion + 1,
-          answerState: { [answerId]: 'success' },
-        })
-      }
+      setResult({ ...result, [question.id]: 'success' })
+      setquizState({
+        ...quizState,
+        answerState: { [answerId]: 'success' },
+      })
+
+      const timeout = setTimeout(() => {
+        if (isQuizFinish()) {
+          setquizState({ ...quizState, isFinished: true })
+        } else {
+          setquizState({
+            ...quizState,
+            activeQuestion: quizState.activeQuestion + 1,
+            answerState: null,
+          })
+          clearTimeout(timeout)
+        }
+      }, 2000)
     } else {
-      setquizState({ ...quizState, answerState: { [answerId]: 'false' } })
+      setResult({ ...result, [question.id]: 'error' })
+
+      setquizState({
+        ...quizState,
+        answerState: { [answerId]: 'error' },
+      })
     }
   }
 
@@ -67,18 +84,37 @@ export default function Quiz() {
     return quizState.activeQuestion + 1 === quizState.quiz.length
   }
 
+  function handleRetry() {
+    setquizState({
+      ...quizState,
+      isFinished: false,
+      activeQuestion: 0,
+      answerState: null,
+    })
+    setResult({})
+  }
+
   return (
     <div className={clsx(styles.root)}>
       <div className={clsx(styles.quizWrapper)}>
         <h1>Вопросы, испытай себя!!</h1>
-        <ActiveQuiz
-          answers={quizState.quiz[quizState.activeQuestion].answers}
-          question={quizState.quiz[quizState.activeQuestion].question}
-          onAnswerClick={onAnswerClickHandler}
-          quizLength={quizState.quiz.length}
-          answerNumber={quizState.activeQuestion + 1}
-          stateAnswers={quizState.answerState}
-        />
+
+        {quizState.isFinished ? (
+          <FinishedQuiz
+            result={result}
+            quiz={quizState.quiz}
+            onRetry={handleRetry}
+          />
+        ) : (
+          <ActiveQuiz
+            answers={quizState.quiz[quizState.activeQuestion].answers}
+            question={quizState.quiz[quizState.activeQuestion].question}
+            onAnswerClick={onAnswerClickHandler}
+            quizLength={quizState.quiz.length}
+            answerNumber={quizState.activeQuestion + 1}
+            stateAnswers={quizState.answerState}
+          />
+        )}
       </div>
     </div>
   )

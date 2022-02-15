@@ -1,0 +1,22 @@
+.root {
+  color: white;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  font-size: 20px;
+  z-index: 100;
+  transition: all 0.3s;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.829);
+  }
+  &.open {
+    background-color: inherit;
+    left: 310px;
+    transform: rotate(-45deg);
+    transition: all 0.3s;
+    outline: 1px solid white;
+  }
+}

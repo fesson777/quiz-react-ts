@@ -9,4 +9,12 @@
     background: rgba(255, 255, 255, 0.2);
     transition: background 0.3s ease-in-out;
   }
+
+  &.success {
+    background-color: greenyellow;
+  }
+
+  &.error {
+    background-color: rgba(207, 87, 78, 0.5);
+  }
 }
