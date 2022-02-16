@@ -1,1 +1,2 @@
-export { default as AnswerList } from './AnswerList'
+export { default } from "./AnswerList";
+export type { AnswerListProps } from "./AnswerList";

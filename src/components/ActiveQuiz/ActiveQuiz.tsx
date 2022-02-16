@@ -1,49 +1,34 @@
-import styles from './ActiveQuiz.module.scss'
-import { AnswerList } from './AnswerList'
-import clsx from 'clsx'
+import clsx from "clsx";
+import { questions } from "containers/Quiz/data";
+import AnswerList, { AnswerListProps } from "./AnswerList";
+import styles from "./ActiveQuiz.module.scss";
 
-export interface ListAnswer {
-  answers: {
-    text: string
-    id: number
-  }[]
-  question: string
-  onAnswerClick?: Function
-  quizLength: number
-  answerNumber: number
-  stateAnswers: {}
+export interface ActiveQuizProps extends AnswerListProps {
+  ask: string;
+  answerNumber: number;
 }
 
-function ActiveQuiz(props: ListAnswer) {
-  const {
-    answers,
-    question,
-    onAnswerClick,
-    answerNumber,
-    quizLength,
-    stateAnswers,
-  } = props
+export default function ActiveQuiz(props: ActiveQuizProps) {
+  const { answers, ask, answerNumber, answerState, onAnswerClick } = props;
 
   return (
     <div className={clsx(styles.root)}>
       <p className={clsx(styles.question)}>
         <span>
           <strong> {answerNumber}.</strong>&nbsp;
-          {question}
+          {ask}
         </span>
 
         <small>
-          {answerNumber} из {quizLength}
+          {answerNumber} из {questions.length}
         </small>
       </p>
 
       <AnswerList
         answers={answers}
         onAnswerClick={onAnswerClick}
-        stateAnswers={stateAnswers}
+        answerState={answerState}
       />
     </div>
-  )
+  );
 }
-
-export default ActiveQuiz

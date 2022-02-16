@@ -1,19 +1,19 @@
-import clsx from 'clsx'
-import styles from './Layout.module.scss'
-import { MenuToggle } from '../components/Navigation/MenuToggle'
-import { useState } from 'react'
-import { Drawer } from '../components/Navigation/Drawer'
+import clsx from "clsx";
+import { useState } from "react";
+import { MenuToggle } from "components/Navigation/MenuToggle";
+import { Drawer } from "components/Navigation/Drawer";
+import styles from "./Layout.module.scss";
 
 export default function Layout(props: CommonProps) {
-  const { children } = props
+  const { children } = props;
 
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(false);
 
   function handleMenu(it: any) {
     if (it) {
-      console.log(it.current.className.includes('open'))
+      console.log(it.current.className.includes("open"));
     }
-    setMenu(!menu)
+    setMenu(!menu);
   }
 
   return (
@@ -24,5 +24,5 @@ export default function Layout(props: CommonProps) {
 
       <main>{children}</main>
     </div>
-  )
+  );
 }

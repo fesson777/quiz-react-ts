@@ -1,35 +1,42 @@
-import clsx from 'clsx'
-import { Button } from '../Button'
-import styles from './FinishedQuiz.module.scss'
+import clsx from "clsx";
+import Button from "components/Button";
+import type { AnswerState } from "types";
+import { questions } from "containers/Quiz/data";
+import styles from "./FinishedQuiz.module.scss";
 
-export default function FinishedQuiz(props) {
-  const { result, quiz, onRetry } = props
+interface FinishedQuizProps {
+  result: AnswerState;
+  onRetry: Fn;
+}
+
+export default function FinishedQuiz(props: FinishedQuizProps) {
+  const { result, onRetry } = props;
 
   const countScore = Object.values(result).reduce((acc, it) => {
-    if (it === 'success') acc++
-    return acc
-  }, 0)
+    if (it === "success") acc++;
+    return acc;
+  }, 0);
   return (
     <div className={clsx(styles.root)}>
       <ul>
-        {quiz.map((item, index) => {
+        {questions.map((item, index) => {
           let QuizIco =
-            result[quiz[item.id - 1].id] === 'success' ? (
+            result[questions[item.id - 1].id] === "success" ? (
               <i className={clsx(styles.success)}>OK</i>
             ) : (
               <i className={clsx(styles.error)}>X</i>
-            )
+            );
           return (
             <li key={index}>
               <strong>{index + 1}.</strong>&nbsp;
-              <p>{item.question}</p>
+              <p>{item.ask}</p>
               {QuizIco}
             </li>
-          )
+          );
         })}
       </ul>
       <p>
-        Правильно {countScore} из {quiz.length} ответов
+        Правильно {countScore} из {questions.length} ответов
       </p>
 
       <div>
@@ -39,7 +46,7 @@ export default function FinishedQuiz(props) {
         <Button type="second">Перейти в список тестов</Button>
       </div>
     </div>
-  )
+  );
 }
 
 // {/* <li>

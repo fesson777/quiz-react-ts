@@ -1,12 +1,10 @@
-import Layout from '../src/hoc/Layout'
-import Quiz from './containers/Quiz/Quiz'
+import Layout from "hoc/Layout";
+import Quiz from "containers/Quiz";
 
-function App() {
+export default function App() {
   return (
     <Layout>
       <Quiz />
     </Layout>
-  )
+  );
 }
-
-export default App

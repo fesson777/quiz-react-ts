@@ -1,1 +1,1 @@
-export { default as ActiveQuiz } from './ActiveQuiz'
+export { default } from "./ActiveQuiz";
