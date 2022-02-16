@@ -1,1 +1,1 @@
-export { default as AnswerList } from './AnswerList'
+export { default } from "./AnswerList";

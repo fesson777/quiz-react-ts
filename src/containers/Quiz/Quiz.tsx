@@ -1,19 +1,19 @@
-import clsx from 'clsx'
-import { useState } from 'react'
-import styles from './Quiz.module.scss'
-import { ActiveQuiz } from '../../components/ActiveQuiz'
-import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
+import clsx from "clsx";
+import { useState } from "react";
+import ActiveQuiz from "components/ActiveQuiz";
+import FinishedQuiz from "components/FinishedQuiz";
+import styles from "./Quiz.module.scss";
 
 interface IBaseQuiz {
-  isFinished: boolean
-  activeQuestion: number
-  answerState?: any
+  isFinished: boolean;
+  activeQuestion: number;
+  answerState?: any;
   quiz: {
-    question: string
-    rightAnswerId: number
-    id: number
-    answers: { text: string; id: number }[]
-  }[]
+    question: string;
+    rightAnswerId: number;
+    id: number;
+    answers: { text: string; id: number }[];
+  }[];
 }
 
 export default function Quiz() {
@@ -23,65 +23,65 @@ export default function Quiz() {
     answerState: null,
     quiz: [
       {
-        question: 'Какого цвета небо?',
+        question: "Какого цвета небо?",
         rightAnswerId: 2,
         id: 1,
         answers: [
-          { text: 'Черный', id: 1 },
-          { text: 'Синий', id: 2 },
-          { text: 'Красный', id: 3 },
-          { text: 'Зеленый', id: 4 },
+          { text: "Черный", id: 1 },
+          { text: "Синий", id: 2 },
+          { text: "Красный", id: 3 },
+          { text: "Зеленый", id: 4 },
         ],
       },
       {
-        question: 'В каком году основали СПб?',
+        question: "В каком году основали СПб?",
         rightAnswerId: 3,
         id: 2,
         answers: [
-          { text: '1700', id: 1 },
-          { text: '1705', id: 2 },
-          { text: '1703', id: 3 },
-          { text: '1803', id: 4 },
+          { text: "1700", id: 1 },
+          { text: "1705", id: 2 },
+          { text: "1703", id: 3 },
+          { text: "1803", id: 4 },
         ],
       },
     ],
-  })
+  });
 
-  const [result, setResult] = useState({})
+  const [result, setResult] = useState({});
 
   function onAnswerClickHandler(answerId: number) {
-    const question = quizState.quiz[quizState.activeQuestion]
+    const question = quizState.quiz[quizState.activeQuestion];
     if (question.rightAnswerId === answerId) {
-      setResult({ ...result, [question.id]: 'success' })
+      setResult({ ...result, [question.id]: "success" });
       setquizState({
         ...quizState,
-        answerState: { [answerId]: 'success' },
-      })
+        answerState: { [answerId]: "success" },
+      });
 
       const timeout = setTimeout(() => {
         if (isQuizFinish()) {
-          setquizState({ ...quizState, isFinished: true })
+          setquizState({ ...quizState, isFinished: true });
         } else {
           setquizState({
             ...quizState,
             activeQuestion: quizState.activeQuestion + 1,
             answerState: null,
-          })
-          clearTimeout(timeout)
+          });
+          clearTimeout(timeout);
         }
-      }, 2000)
+      }, 2000);
     } else {
-      setResult({ ...result, [question.id]: 'error' })
+      setResult({ ...result, [question.id]: "error" });
 
       setquizState({
         ...quizState,
-        answerState: { [answerId]: 'error' },
-      })
+        answerState: { [answerId]: "error" },
+      });
     }
   }
 
   function isQuizFinish() {
-    return quizState.activeQuestion + 1 === quizState.quiz.length
+    return quizState.activeQuestion + 1 === quizState.quiz.length;
   }
 
   function handleRetry() {
@@ -90,8 +90,8 @@ export default function Quiz() {
       isFinished: false,
       activeQuestion: 0,
       answerState: null,
-    })
-    setResult({})
+    });
+    setResult({});
   }
 
   return (
@@ -117,5 +117,5 @@ export default function Quiz() {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,20 +1,20 @@
-import styles from './ActiveQuiz.module.scss'
-import { AnswerList } from './AnswerList'
-import clsx from 'clsx'
+import clsx from "clsx";
+import AnswerList from "./AnswerList";
+import styles from "./ActiveQuiz.module.scss";
 
 export interface ListAnswer {
   answers: {
-    text: string
-    id: number
-  }[]
-  question: string
-  onAnswerClick?: Function
-  quizLength: number
-  answerNumber: number
-  stateAnswers: {}
+    text: string;
+    id: number;
+  }[];
+  question: string;
+  onAnswerClick?: Function;
+  quizLength: number;
+  answerNumber: number;
+  stateAnswers: {};
 }
 
-function ActiveQuiz(props: ListAnswer) {
+export default function ActiveQuiz(props: ListAnswer) {
   const {
     answers,
     question,
@@ -22,7 +22,7 @@ function ActiveQuiz(props: ListAnswer) {
     answerNumber,
     quizLength,
     stateAnswers,
-  } = props
+  } = props;
 
   return (
     <div className={clsx(styles.root)}>
@@ -43,7 +43,5 @@ function ActiveQuiz(props: ListAnswer) {
         stateAnswers={stateAnswers}
       />
     </div>
-  )
+  );
 }
-
-export default ActiveQuiz

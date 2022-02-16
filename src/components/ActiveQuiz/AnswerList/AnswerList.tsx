@@ -1,9 +1,9 @@
-import clsx from 'clsx'
-import styles from './AnswerList.module.scss'
-import AnswerItem from './AnswerItem/AnswerItem'
+import clsx from "clsx";
+import AnswerItem from "./AnswerItem";
+import styles from "./AnswerList.module.scss";
 
-function AnswerList(props: any) {
-  const { answers, onAnswerClick, stateAnswers } = props
+export default function AnswerList(props: any) {
+  const { answers, onAnswerClick, stateAnswers } = props;
 
   return (
     <ul className={clsx(styles.root)}>
@@ -16,11 +16,9 @@ function AnswerList(props: any) {
               onAnswerClick={onAnswerClick}
               stateAnswersClass={stateAnswers ? stateAnswers[answer.id] : null}
             />
-          )
+          );
         })}
       </li>
     </ul>
-  )
+  );
 }
-
-export default AnswerList

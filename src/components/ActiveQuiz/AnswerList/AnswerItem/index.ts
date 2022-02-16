@@ -1,1 +1,1 @@
-import { default as AnswerItem } from './AnswerItem'
+export { default } from "./AnswerItem";

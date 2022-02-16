@@ -1,5 +1,5 @@
-import styles from './AnswerItem.module.scss'
-import clsx from 'clsx'
+import clsx from "clsx";
+import styles from "./AnswerItem.module.scss";
 
 // export interface ItemText {
 //   answer: {
@@ -9,19 +9,17 @@ import clsx from 'clsx'
 //   onAnswerClick?: Function
 // }
 
-const AnswerItem = (props) => {
-  const { answer, onAnswerClick } = props
+export default function AnswerItem(props) {
+  const { answer, onAnswerClick } = props;
   return (
     <li
       className={clsx(styles.root, {
-        [styles.success]: props.stateAnswersClass === 'success',
-        [styles.error]: props.stateAnswersClass === 'error',
+        [styles.success]: props.stateAnswersClass === "success",
+        [styles.error]: props.stateAnswersClass === "error",
       })}
       onClick={() => onAnswerClick(answer.id)}
     >
       {answer.text}
     </li>
-  )
+  );
 }
-
-export default AnswerItem
