@@ -2,70 +2,44 @@ import clsx from "clsx";
 import { useState } from "react";
 import ActiveQuiz from "components/ActiveQuiz";
 import FinishedQuiz from "components/FinishedQuiz";
+import type { AnswerState } from "types";
+import { questions } from "./data";
 import styles from "./Quiz.module.scss";
 
-interface IBaseQuiz {
+type State = {
   isFinished: boolean;
   activeQuestion: number;
-  answerState?: any;
-  quiz: {
-    question: string;
-    rightAnswerId: number;
-    id: number;
-    answers: { text: string; id: number }[];
-  }[];
-}
+  answerState: AnswerState;
+};
+
+const initState: State = {
+  isFinished: false,
+  activeQuestion: 0,
+  answerState: {},
+};
 
 export default function Quiz() {
-  const [quizState, setquizState] = useState<IBaseQuiz>({
-    isFinished: false,
-    activeQuestion: 0,
-    answerState: null,
-    quiz: [
-      {
-        question: "Какого цвета небо?",
-        rightAnswerId: 2,
-        id: 1,
-        answers: [
-          { text: "Черный", id: 1 },
-          { text: "Синий", id: 2 },
-          { text: "Красный", id: 3 },
-          { text: "Зеленый", id: 4 },
-        ],
-      },
-      {
-        question: "В каком году основали СПб?",
-        rightAnswerId: 3,
-        id: 2,
-        answers: [
-          { text: "1700", id: 1 },
-          { text: "1705", id: 2 },
-          { text: "1703", id: 3 },
-          { text: "1803", id: 4 },
-        ],
-      },
-    ],
-  });
+  const [quizState, setQuizState] = useState<State>(initState);
 
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState<AnswerState>({});
 
-  function onAnswerClickHandler(answerId: number) {
-    const question = quizState.quiz[quizState.activeQuestion];
-    if (question.rightAnswerId === answerId) {
+  function handleAnswerClick(id: number) {
+    const question = questions[quizState.activeQuestion];
+    if (question.rightAnswerId === id) {
       setResult({ ...result, [question.id]: "success" });
-      setquizState({
+      setQuizState({
         ...quizState,
-        answerState: { [answerId]: "success" },
+        answerState: { [id]: "success" },
       });
 
       const timeout = setTimeout(() => {
         if (isQuizFinish()) {
-          setquizState({ ...quizState, isFinished: true });
+          setQuizState({ ...quizState, isFinished: true });
         } else {
-          setquizState({
+          setQuizState({
             ...quizState,
             activeQuestion: quizState.activeQuestion + 1,
-            answerState: null,
+            answerState: {},
           });
           clearTimeout(timeout);
         }
@@ -73,24 +47,19 @@ export default function Quiz() {
     } else {
       setResult({ ...result, [question.id]: "error" });
 
-      setquizState({
+      setQuizState({
         ...quizState,
-        answerState: { [answerId]: "error" },
+        answerState: { [id]: "error" },
       });
     }
   }
 
   function isQuizFinish() {
-    return quizState.activeQuestion + 1 === quizState.quiz.length;
+    return quizState.activeQuestion + 1 === questions.length;
   }
 
   function handleRetry() {
-    setquizState({
-      ...quizState,
-      isFinished: false,
-      activeQuestion: 0,
-      answerState: null,
-    });
+    setQuizState(initState);
     setResult({});
   }
 
@@ -100,19 +69,14 @@ export default function Quiz() {
         <h1>Вопросы, испытай себя!!</h1>
 
         {quizState.isFinished ? (
-          <FinishedQuiz
-            result={result}
-            quiz={quizState.quiz}
-            onRetry={handleRetry}
-          />
+          <FinishedQuiz result={result} onRetry={handleRetry} />
         ) : (
           <ActiveQuiz
-            answers={quizState.quiz[quizState.activeQuestion].answers}
-            question={quizState.quiz[quizState.activeQuestion].question}
-            onAnswerClick={onAnswerClickHandler}
-            quizLength={quizState.quiz.length}
+            ask={questions[quizState.activeQuestion].ask}
+            answers={questions[quizState.activeQuestion].answers}
             answerNumber={quizState.activeQuestion + 1}
-            stateAnswers={quizState.answerState}
+            answerState={quizState.answerState}
+            onAnswerClick={handleAnswerClick}
           />
         )}
       </div>

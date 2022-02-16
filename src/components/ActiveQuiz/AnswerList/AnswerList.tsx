@@ -1,20 +1,27 @@
 import clsx from "clsx";
-import AnswerItem from "./AnswerItem";
+import type { Answer, AnswerState } from "types";
+import AnswerItem, { AnswerItemProps } from "./AnswerItem";
 import styles from "./AnswerList.module.scss";
 
-export default function AnswerList(props: any) {
-  const { answers, onAnswerClick, stateAnswers } = props;
+export interface AnswerListProps {
+  answers: Answer[];
+  answerState: AnswerState;
+  onAnswerClick: AnswerItemProps["onAnswerClick"];
+}
+
+export default function AnswerList(props: AnswerListProps) {
+  const { answers, onAnswerClick, answerState } = props;
 
   return (
     <ul className={clsx(styles.root)}>
       <li>
-        {answers.map((answer: any, index: number) => {
+        {answers.map((answer, i) => {
           return (
             <AnswerItem
-              key={index}
+              key={i}
               answer={answer}
               onAnswerClick={onAnswerClick}
-              stateAnswersClass={stateAnswers ? stateAnswers[answer.id] : null}
+              stateAnswersClass={answerState[answer.id]}
             />
           );
         })}
