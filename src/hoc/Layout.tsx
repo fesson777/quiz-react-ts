@@ -9,16 +9,16 @@ export default function Layout(props: CommonProps) {
 
   const [menu, setMenu] = useState(false)
 
-  function handleMenu(it: any) {
-    if (it) {
-      console.log(it.current.className.includes('open'))
-    }
+  function handleMenu() {
     setMenu(!menu)
+  }
+  function menuCloseHandler() {
+    setMenu(false)
   }
 
   return (
     <div className={clsx(styles.root)}>
-      <Drawer isOpen={menu} />
+      <Drawer isOpen={menu} onClose={menuCloseHandler} />
 
       <MenuToggle onToggle={handleMenu} isOpen={menu} />
 

@@ -16,9 +16,16 @@
   }
 
   &:hover {
-    background-color: rgb(57, 57, 231);
+    background-color: rgb(145, 37, 130);
+    outline: 1px solid white;
   }
   &:focus {
     background-color: rgb(57, 57, 231);
+  }
+  &.disabled {
+    background: rgba(253, 253, 253, 0.014);
+    border: 2px solid rgb(136, 133, 133);
+    cursor: auto;
+    color: black;
   }
 }

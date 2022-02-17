@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  flex-grow: 1;
+  width: 100%;
+  background: linear-gradient(270deg, #c91871 0%, #e670c8 100%);
+
+  & > div {
+    width: 100%;
+    padding: 0 20px;
+    max-width: 600px;
+  }
+  h1 {
+    text-align: center;
+  }
+
+  form {
+    background: #eee;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #0e0a0c;
+    fieldset {
+      border: none;
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}

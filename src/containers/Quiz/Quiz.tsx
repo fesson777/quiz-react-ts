@@ -3,6 +3,7 @@ import { useState } from 'react'
 import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
+import { useParams } from 'react-router-dom'
 
 interface IBaseQuiz {
   isFinished: boolean
@@ -17,6 +18,9 @@ interface IBaseQuiz {
 }
 
 export default function Quiz() {
+  const param = useParams()
+  console.log(param.id)
+
   const [quizState, setquizState] = useState<IBaseQuiz>({
     isFinished: false,
     activeQuestion: 0,

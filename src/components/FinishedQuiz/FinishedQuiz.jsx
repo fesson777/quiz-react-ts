@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { Link } from 'react-router-dom'
 import { Button } from '../Button'
 import styles from './FinishedQuiz.module.scss'
 
@@ -36,7 +37,9 @@ export default function FinishedQuiz(props) {
         <Button type="primary" onClick={onRetry}>
           Повторить
         </Button>
-        <Button type="second">Перейти в список тестов</Button>
+        <Link to={'/'}>
+          <Button type="second">Перейти в список тестов</Button>
+        </Link>
       </div>
     </div>
   )
