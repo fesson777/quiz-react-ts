@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'

@@ -1,27 +1,20 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import Input from '../../components/Navigation/Input/Input'
 import { Select } from '../../components/Navigation/Select'
 import styles from './QuizCreator.module.scss'
 
 export default function QuizCreator() {
+  const navigate = useNavigate()
+
   const [quizForm, setquizForm] = useState({
     quiz: [],
     isFormValid: false,
     rightAnswerId: 1,
     formControls: createFormControls(),
   })
-
-  function createControl(config, validation) {
-    return {
-      ...config,
-      validation,
-      valid: !validation,
-      touched: false,
-      value: '',
-    }
-  }
 
   function validate(value, validation = null) {
     if (!validation) {
@@ -44,18 +37,6 @@ export default function QuizCreator() {
     return isFormValid
   }
 
-  function createOptionControl(number) {
-    return createControl(
-      {
-        label: `Ответ: ${number}`,
-        errorMessage: 'Значение не может быть пустым',
-        id: number,
-      },
-
-      { required: true }
-    )
-  }
-
   function createFormControls() {
     return {
       question: createControl(
@@ -70,6 +51,28 @@ export default function QuizCreator() {
       option3: createOptionControl(3),
       option4: createOptionControl(4),
     }
+  }
+
+  function createControl(config, validation) {
+    return {
+      ...config,
+      validation,
+      valid: !validation,
+      touched: false,
+      value: '',
+    }
+  }
+
+  function createOptionControl(number) {
+    return createControl(
+      {
+        label: `Ответ: ${number}`,
+        errorMessage: 'Значение не может быть пустым',
+        id: number,
+      },
+
+      { required: true }
+    )
   }
 
   function submitHandler(event) {
@@ -109,7 +112,9 @@ export default function QuizCreator() {
   function createQuizHandler(event) {
     event.preventDefault()
 
-    console.log(quizForm.quiz)
+    localStorage.setItem(`quiz-${Date.now()}`, JSON.stringify(quizForm.quiz))
+
+    navigate('/')
   }
 
   function selectChangeHandler(event) {
@@ -154,6 +159,7 @@ export default function QuizCreator() {
       )
     })
   }
+
   return (
     <div className={clsx(styles.root)}>
       <div>
