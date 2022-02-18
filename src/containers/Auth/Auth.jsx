@@ -1,7 +1,9 @@
 import clsx from 'clsx'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../components/Button'
 import Input from '../../components/Navigation/Input/Input'
+import { authAction } from '../../store/reducers/authReducer'
 import styles from './Auth.module.scss'
 
 const validateEmail = (email) => {
@@ -13,6 +15,9 @@ const validateEmail = (email) => {
 }
 
 export default function Auth() {
+  const dispatch = useDispatch()
+  const {auth} = useSelector(state => state.auth)
+ 
   const [formState, SetformState] = useState({
     isFormValid: false,
     formControls: {
@@ -42,8 +47,20 @@ export default function Auth() {
       },
     },
   })
-  function loginHandler() {}
-  function registerHandler() {}
+  function loginHandler() {
+    const {email, password} = formState.formControls
+    if(auth.email === email.value && auth.password === password.value) {
+      console.log('auth success');
+    } else {console.log('false');}
+  }
+  function registerHandler() {   
+    const {email, password} = formState.formControls
+    const data = {
+      email:email.value,
+      password:password.value
+    }    
+    dispatch(authAction(data))    
+  }
   function submitHandler(e) {
     e.preventDefault()
   }

@@ -1,34 +1,21 @@
 import clsx from 'clsx'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import Input from '../../components/Navigation/Input/Input'
 import { Select } from '../../components/Navigation/Select'
-import { createQuizAction } from '../../store/reducers/quizReducer'
 import styles from './QuizCreator.module.scss'
+import { createControl, createOptionControl, validate } from './utils'
 
 export default function QuizCreator() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const [quizForm, setquizForm] = useState({
     quiz: [],
     isFormValid: false,
     rightAnswerId: 1,
     formControls: createFormControls(),
-  })
-
-  function validate(value, validation = null) {
-    if (!validation) {
-      return true
-    }
-    let isValid = true
-    if (validation.required) {
-      isValid = value.trim() !== '' && isValid
-    }
-    return isValid
-  }
+  })  
 
   function validateForm(formControl) {
     let isFormValid = true
@@ -54,29 +41,7 @@ export default function QuizCreator() {
       option3: createOptionControl(3),
       option4: createOptionControl(4),
     }
-  }
-
-  function createControl(config, validation) {
-    return {
-      ...config,
-      validation,
-      valid: !validation,
-      touched: false,
-      value: '',
-    }
-  }
-
-  function createOptionControl(number) {
-    return createControl(
-      {
-        label: `Ответ: ${number}`,
-        errorMessage: 'Значение не может быть пустым',
-        id: number,
-      },
-
-      { required: true }
-    )
-  }
+  }  
 
   function submitHandler(event) {
     event.preventDefault()
@@ -91,14 +56,14 @@ export default function QuizCreator() {
     const { question, option1, option2, option3, option4 } =
       quizForm.formControls
 
-    const quistionItem = {
+    const quistionItem = {      
       question: question.value,
       id: index,
       rightAnswerId: quizForm.rightAnswerId,
       answers: [
         { text: option1.value, id: option1.id },
         { text: option2.value, id: option2.id },
-        { text: option3.value, id: option4.id },
+        { text: option3.value, id: option3.id },
         { text: option4.value, id: option4.id },
       ],
     }
@@ -110,32 +75,10 @@ export default function QuizCreator() {
       rightAnswerId: 1,
       formControls: createFormControls(),
     })
-  }
-
-  function createQuizHandler(event) {
-    event.preventDefault()
-
-    let numQuizinLS = 1
-    let LSquizArr = []
-
-    Object.keys(localStorage).forEach((key, index) => {
-      if (key.includes('quiz')) {
-        LSquizArr.push([key, index + 1])
-        numQuizinLS = LSquizArr.length + 1
-      }
-    })
-
-    localStorage.setItem(
-      `quiz-id:${numQuizinLS}`,
-      JSON.stringify(quizForm.quiz)
-    )
-    dispatch(createQuizAction(quizForm.quiz))
-
-    navigate('/')
-  }
+  } 
 
   function selectChangeHandler(event) {
-    setquizForm({ ...quizForm, rightAnswerId: event.target.value })
+    setquizForm({ ...quizForm, rightAnswerId: +event.target.value })
   }
 
   function chageHandler(value, controlName) {
@@ -175,6 +118,27 @@ export default function QuizCreator() {
         </div>
       )
     })
+  }
+
+  function createQuizHandler(event) {
+    event.preventDefault()
+
+    let numQuizinLS = 1
+    let LSquizArr = []
+
+    Object.keys(localStorage).forEach((key, index) => {
+      if (key.includes('quiz')) {
+        LSquizArr.push([key, index + 1])
+        numQuizinLS = LSquizArr.length + 1
+      }
+    })
+
+    localStorage.setItem(
+      `quiz-id:${numQuizinLS}`,
+      JSON.stringify(quizForm.quiz)
+    )    
+
+    navigate('/')
   }
 
   return (

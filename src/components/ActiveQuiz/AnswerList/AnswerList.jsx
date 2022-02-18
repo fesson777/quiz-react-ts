@@ -11,7 +11,7 @@ function AnswerList(props) {
         {answers.map((answer, index) => {
           return (
             <AnswerItem
-              key={index}
+              key={answer+index}
               answer={answer}
               onAnswerClick={onAnswerClick}
               stateAnswersClass={stateAnswers ? stateAnswers[answer.id] : null}

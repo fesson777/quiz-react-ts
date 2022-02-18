@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useRef } from 'react'
 import burger from './burger.png'
 import styles from './MenuToggle.module.scss'
 

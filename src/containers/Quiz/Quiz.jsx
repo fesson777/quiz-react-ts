@@ -4,17 +4,14 @@ import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 export default function Quiz() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { state } = useSelector((state) => state)
-  console.log(state)
 
   let quizLS = {}
   if (localStorage.getItem(`quiz-id:${id}`)) {
-    quizLS = JSON.parse(localStorage.getItem(`quiz-id:${id}`))
+    quizLS = JSON.parse(localStorage.getItem(`quiz-id:${id}`))   
   } else {
     navigate('/') // почему не работает ?
   }
@@ -28,7 +25,7 @@ export default function Quiz() {
 
   const [result, setResult] = useState({})
 
-  function onAnswerClickHandler(answerId) {
+  function onAnswerClickHandler(answerId) {    
     const question = quizState.quiz[quizState.activeQuestion]
     if (question.rightAnswerId === answerId) {
       setResult({ ...result, [question.id]: 'success' })
