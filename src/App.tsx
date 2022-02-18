@@ -15,6 +15,7 @@ function App() {
           <Route path={'auth'} element={<Auth />} />
           <Route path={'quiz/:id'} element={<Quiz />} />
           <Route path={'quiz-creator'} element={<QuizCreator />} />
+          <Route path={'*'} element={<QuizList />} />
         </Routes>
       </Layout>
     </BrowserRouter>

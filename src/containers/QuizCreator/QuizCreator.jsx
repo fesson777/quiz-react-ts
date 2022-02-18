@@ -92,7 +92,7 @@ export default function QuizCreator() {
       question: question.value,
       id: index,
       rightAnswerId: quizForm.rightAnswerId,
-      answer: [
+      answers: [
         { text: option1.value, id: option1.id },
         { text: option2.value, id: option2.id },
         { text: option3.value, id: option4.id },
@@ -112,7 +112,20 @@ export default function QuizCreator() {
   function createQuizHandler(event) {
     event.preventDefault()
 
-    localStorage.setItem(`quiz-${Date.now()}`, JSON.stringify(quizForm.quiz))
+    let numQuizinLS = 1
+    let LSquizArr = []
+
+    Object.keys(localStorage).forEach((key, index) => {
+      if (key.includes('quiz')) {
+        LSquizArr.push([key, index + 1])
+        numQuizinLS = LSquizArr.length + 1
+      }
+    })
+
+    localStorage.setItem(
+      `quiz-id:${numQuizinLS}`,
+      JSON.stringify(quizForm.quiz)
+    )
 
     navigate('/')
   }

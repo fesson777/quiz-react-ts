@@ -2,13 +2,13 @@ import clsx from 'clsx'
 import styles from './AnswerList.module.scss'
 import AnswerItem from './AnswerItem/AnswerItem'
 
-function AnswerList(props: any) {
+function AnswerList(props) {
   const { answers, onAnswerClick, stateAnswers } = props
 
   return (
     <ul className={clsx(styles.root)}>
       <li>
-        {answers.map((answer: any, index: number) => {
+        {answers.map((answer, index) => {
           return (
             <AnswerItem
               key={index}

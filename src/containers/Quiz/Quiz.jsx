@@ -3,57 +3,31 @@ import { useEffect, useLayoutEffect, useState } from 'react'
 import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
-import { useParams } from 'react-router-dom'
-
-interface IBaseQuiz {
-  isFinished: boolean
-  activeQuestion: number
-  answerState?: any
-  quiz: {
-    question: string
-    rightAnswerId: number
-    id: number
-    answers: { text: string; id: number }[]
-  }[]
-}
+import { useNavigate, useParams } from 'react-router-dom'
+import { QuizBaseState } from './QuizBaseState'
 
 export default function Quiz() {
-  const param = useParams()
-  console.log(param.id)
+  const { id } = useParams()
+  console.log(localStorage.getItem(`quiz-id:${id}`))
+  const navigate = useNavigate()
+  let quizLS = [...QuizBaseState]
 
-  const [quizState, setquizState] = useState<IBaseQuiz>({
+  if (localStorage.getItem(`quiz-id:${id}`)) {
+    quizLS = JSON.parse(localStorage.getItem(`quiz-id:${id}`))
+  } else {
+    navigate('/') // почему не работает ?
+  }
+
+  const [quizState, setquizState] = useState({
     isFinished: false,
     activeQuestion: 0,
     answerState: null,
-    quiz: [
-      {
-        question: 'Какого цвета небо?',
-        rightAnswerId: 2,
-        id: 1,
-        answers: [
-          { text: 'Черный', id: 1 },
-          { text: 'Синий', id: 2 },
-          { text: 'Красный', id: 3 },
-          { text: 'Зеленый', id: 4 },
-        ],
-      },
-      {
-        question: 'В каком году основали СПб?',
-        rightAnswerId: 3,
-        id: 2,
-        answers: [
-          { text: '1700', id: 1 },
-          { text: '1705', id: 2 },
-          { text: '1703', id: 3 },
-          { text: '1803', id: 4 },
-        ],
-      },
-    ],
+    quiz: [...quizLS],
   })
 
   const [result, setResult] = useState({})
 
-  function onAnswerClickHandler(answerId: number) {
+  function onAnswerClickHandler(answerId) {
     const question = quizState.quiz[quizState.activeQuestion]
     if (question.rightAnswerId === answerId) {
       setResult({ ...result, [question.id]: 'success' })
