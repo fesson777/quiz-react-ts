@@ -1,17 +1,18 @@
 import clsx from 'clsx'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './Quiz.module.scss'
 import { ActiveQuiz } from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 import { useNavigate, useParams } from 'react-router-dom'
-import { QuizBaseState } from './QuizBaseState'
+import { useSelector } from 'react-redux'
 
 export default function Quiz() {
   const { id } = useParams()
-  console.log(localStorage.getItem(`quiz-id:${id}`))
   const navigate = useNavigate()
-  let quizLS = [...QuizBaseState]
+  const { state } = useSelector((state) => state)
+  console.log(state)
 
+  let quizLS = {}
   if (localStorage.getItem(`quiz-id:${id}`)) {
     quizLS = JSON.parse(localStorage.getItem(`quiz-id:${id}`))
   } else {

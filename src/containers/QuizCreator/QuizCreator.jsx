@@ -1,13 +1,16 @@
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import Input from '../../components/Navigation/Input/Input'
 import { Select } from '../../components/Navigation/Select'
+import { createQuizAction } from '../../store/reducers/quizReducer'
 import styles from './QuizCreator.module.scss'
 
 export default function QuizCreator() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [quizForm, setquizForm] = useState({
     quiz: [],
@@ -126,6 +129,7 @@ export default function QuizCreator() {
       `quiz-id:${numQuizinLS}`,
       JSON.stringify(quizForm.quiz)
     )
+    dispatch(createQuizAction(quizForm.quiz))
 
     navigate('/')
   }

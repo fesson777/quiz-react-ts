@@ -1,4 +1,4 @@
-export const QuizBaseState = [
+export const quizBaseState = [
   {
     question: 'Какого цвета небо?',
     rightAnswerId: 2,
