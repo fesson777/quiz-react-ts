@@ -1,26 +1,26 @@
-import clsx from 'clsx'
 import styles from './Layout.module.scss'
 import { MenuToggle } from '../components/Navigation/MenuToggle'
 import { useState } from 'react'
-import { Drawer } from '../components/Navigation/Drawer'
+import { Menu } from '../components/Navigation'
 
 export default function Layout(props: CommonProps) {
   const { children } = props
 
-  const [menu, setMenu] = useState(false)
+  const [menuOpened, setMenuOpened] = useState(false)
 
   function handleMenu() {
-    setMenu(!menu)
+    setMenuOpened(!menuOpened)
   }
   function menuCloseHandler() {
-    setMenu(false)
+    setMenuOpened(false)
   }
 
   return (
-    <div className={clsx(styles.root)}>
-      <Drawer isOpen={menu} onClose={menuCloseHandler} />
+    <div className={styles.root}>
+     
+      <Menu open={menuOpened} onClose={menuCloseHandler} />
 
-      <MenuToggle onToggle={handleMenu} isOpen={menu} />
+      <MenuToggle onToggle={handleMenu} isOpen={menuOpened} />
 
       <main>{children}</main>
     </div>

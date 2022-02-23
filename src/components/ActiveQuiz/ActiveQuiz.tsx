@@ -1,17 +1,14 @@
 import styles from './ActiveQuiz.module.scss'
 import { AnswerList } from './AnswerList'
-import clsx from 'clsx'
+import { Answer, AnswerState } from 'types'
 
 export interface ListAnswer {
-  answers: {
-    text: string
-    id: number
-  }[]
+  answers: Answer[]
   question: string
-  onAnswerClick?: Function
+  onAnswerClick: (id: number) => void
   quizLength: number
   answerNumber: number
-  stateAnswers: {}
+  answerState: AnswerState
 }
 
 function ActiveQuiz(props: ListAnswer) {
@@ -21,12 +18,12 @@ function ActiveQuiz(props: ListAnswer) {
     onAnswerClick,
     answerNumber,
     quizLength,
-    stateAnswers,
+    answerState,
   } = props
 
   return (
-    <div className={clsx(styles.root)}>
-      <p className={clsx(styles.question)}>
+    <div className={styles.root}>
+      <p className={styles.question}>
         <span>
           <strong> {answerNumber}.</strong>&nbsp;
           {question}
@@ -40,7 +37,7 @@ function ActiveQuiz(props: ListAnswer) {
       <AnswerList
         answers={answers}
         onAnswerClick={onAnswerClick}
-        stateAnswers={stateAnswers}
+        answerState={answerState}
       />
     </div>
   )
